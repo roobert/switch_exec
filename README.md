@@ -1,8 +1,4 @@
-# Switch Data Fetch
-
-## About
-
-Some scripts to fetch data from switches
+# Switch Exec
 
 ## Install
 

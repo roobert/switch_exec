@@ -1,0 +1,43 @@
+#!/usr/bin/env expect
+
+set host        [lindex $argv 0]
+set user        [lindex $argv 1]
+set pass        [lindex $argv 2]
+set enable_pass [lindex $argv 3]
+set cmd         [lindex $argv 4]
+
+match_max 1000
+
+spawn ssh $user@$host
+
+expect "*?assword:*"
+
+send -- "$pass\n\n"
+
+expect "*>"
+
+send -- "en\n"
+
+expect {
+  "*?assword:*" {
+    send -- "$enable_pass\n\n"
+  }
+  "*#" {
+  }
+}
+
+send -- "$cmd\n"
+
+expect {
+  "*More-- or (q)uit" {
+
+    send -- "\n"
+
+    exp_continue
+  }
+  "*#" {
+    send -- "quit\n"
+  }
+}
+
+expect eof
